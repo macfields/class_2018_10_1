@@ -6,12 +6,23 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 library(tidyverse)
+x <- read_csv("polls_IT-parliament_2018-10-01 (1).csv")
 ```
 
 ## 
 ```{r}
-raw <- read.csv("italianpolls.csv")
+ x%>% 
+  select(date, firm, n, LN , M5S, PD, FIPDLFI,) %>% 
+  filter(date >= "2017-09-26") %>% 
+  gather( key = "party", value = "poll", LN:FIPDLFI) %>% 
+  ggplot(aes( x = date, y = poll, color = party)) + geom_point(alpha = .1, size = 0.5) + geom_smooth()
+```
+Purpose of this document is to show polling results in Italy. 
+
+```{r first plot}
+x %>% 
+ggplot(aes(x= date, y= LN)) + geom_point()
 ```
 
